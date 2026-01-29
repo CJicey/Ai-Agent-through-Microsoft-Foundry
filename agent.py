@@ -2,6 +2,7 @@ from azure.identity import InteractiveBrowserCredential
 from azure.ai.projects import AIProjectClient
 from dotenv import load_dotenv
 from pathlib import Path
+import pandas as pd
 import os
 
 print("Running InteractiveBrowserCredential")
@@ -19,12 +20,22 @@ def main():
     if not project_endpoint or not model_deployment:
         raise RuntimeError("Missing PROJECT_ENDPOINT or MODEL_DEPLOYMENT_NAME in .env")
 
-    # Load data.txt from the same folder as this script
-    data_path = script_dir / "data.txt"
-    if not data_path.exists():
-        raise FileNotFoundError(f"Missing data file: {data_path}")
+    # Load data.txt and excel from the same folder as this script
+    data_file = script_dir / "data.xlsx"
 
-    data = data_path.read_text(encoding="utf-8")
+    if data_file.suffix == ".txt":
+        data = data_file.read_text(encoding="utf-8")
+
+    elif data_file.suffix in {".xlsx", ".xls"}:
+        sheets = pd.read_excel(data_file, sheet_name=None)
+        data = ""
+        for sheet_name, df in sheets.items():
+            data += f"\n--- SHEET: {sheet_name} ---\n"
+            data += df.to_csv(index=False)
+            
+    else:
+        raise ValueError("Unsupported data file type")
+
 
     print("\n=== DATA LOADED ===")
     print(data)
@@ -81,5 +92,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
