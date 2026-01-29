@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import os
 
-print("RUNNING SIMPLE AZURE TEST SCRIPT (InteractiveBrowserCredential)")
+print("Running InteractiveBrowserCredential")
 def main():
     # Clear console
     os.system("cls" if os.name == "nt" else "clear")
@@ -30,10 +30,10 @@ def main():
     print(data)
     print("==================\n")
 
-    # Auth using browser login (does NOT require az on PATH)
+    # Auth using browser login
     credential = InteractiveBrowserCredential()
 
-    # Create Azure AI Project client + OpenAI client
+    # Creates Azure AI Project client + OpenAI client
     project_client = AIProjectClient(
         endpoint=project_endpoint,
         credential=credential,
@@ -81,4 +81,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
