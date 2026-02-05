@@ -1,0 +1,9 @@
+[theme]
+base="light"
+
+# Bennett & Pless theme placeholders
+primaryColor="#9b1111"            
+backgroundColor="#ffffff"
+secondaryBackgroundColor="#dfdfdf"
+textColor="#111827"
+font="sans serif"
